@@ -99,7 +99,7 @@ declare var require: any;
             eval_obj = eval(expression);
         }
         catch (e) {
-            throw new Error("in " + m_file_path + ":\r\n" + e.message);
+            throw new Error("in " + m_file_path + "\r\n" + e.message + "\r\n" + e.stack);
         }
     }
 
