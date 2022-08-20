@@ -1,4 +1,4 @@
-# 秀丸マクロ jsmode 用の require
+# 秀丸マクロ jsmode 用の require 関数
 
 ![require v1.0.0](https://img.shields.io/badge/require-v1.0.0-6479ff.svg)
 ![Hidemaru 9.18](https://img.shields.io/badge/Hidemaru-v9.18-6479ff.svg)
