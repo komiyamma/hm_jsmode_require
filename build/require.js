@@ -20,13 +20,13 @@
             if (hidemaruGlobal.existfile(m_currentmacrodirectory + "\\" + filepath)) {
                 m_file_path = m_currentmacrodirectory + "\\" + filepath;
             }
-            if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath)) {
+            else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath)) {
                 m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath;
             }
-            if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath)) {
+            else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath)) {
                 m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath;
             }
-            if (hidemaruGlobal.existfile(filepath)) {
+            else if (hidemaruGlobal.existfile(filepath)) {
                 m_file_path = filepath;
             }
             if (m_file_path == "") {
