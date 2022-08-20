@@ -1,0 +1,2 @@
+# hm_jsmode_require
+秀丸エディタのjsmode用のrequire関数
