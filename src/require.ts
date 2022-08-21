@@ -1,6 +1,8 @@
 /*!
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
+ * 
+ * require v1.0.0
  */
 
 declare var require: any;
@@ -13,7 +15,7 @@ declare var require: any;
     function _output(msg: string): boolean {
 
         if (!_outputpane_dllobj) {
-            _outputpane_dllobj = hidemaru.loadDll(hidemaruGlobal.hidemarudir() + "/HmOutputPane.dll");
+            _outputpane_dllobj = hidemaru.loadDll(hidemaruGlobal.hidemarudir() + "\\HmOutputPane.dll");
         }
 
         if (_outputpane_dllobj) {
@@ -110,10 +112,7 @@ declare var require: any;
     }
 
     if (typeof(require) != 'undefined') {
-        if (require.guid == null) {
-            _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
-        }
-        else if (require.guid != guid) {
+        if (require.guid == null || require.guid != guid) {
             _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
         }
     }

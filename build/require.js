@@ -1,13 +1,15 @@
 /*!
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
+ *
+ * require v1.0.0
  */
 (function () {
     var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
     var _outputpane_dllobj = null;
     function _output(msg) {
         if (!_outputpane_dllobj) {
-            _outputpane_dllobj = hidemaru.loadDll(hidemaruGlobal.hidemarudir() + "/HmOutputPane.dll");
+            _outputpane_dllobj = hidemaru.loadDll(hidemaruGlobal.hidemarudir() + "\\HmOutputPane.dll");
         }
         if (_outputpane_dllobj) {
             var msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
@@ -95,10 +97,7 @@
         return eval_obj;
     }
     if (typeof (require) != 'undefined') {
-        if (require.guid == null) {
-            _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
-        }
-        else if (require.guid != guid) {
+        if (require.guid == null || require.guid != guid) {
             _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
         }
     }
