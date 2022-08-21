@@ -6,6 +6,7 @@
 declare var require: any;
 
 (function () {
+    var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
 
     var _outputpane_dllobj: hidemaru.ILoadDllResult = null;
 
@@ -108,7 +109,16 @@ declare var require: any;
         return eval_obj;
     }
 
+    if (typeof(require) != 'undefined') {
+        if (require.guid == null) {
+            _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
+        }
+        else if (require.guid != guid) {
+            _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
+        }
+    }
     require = _require;
+    require.guid = guid;
 })();
 
 

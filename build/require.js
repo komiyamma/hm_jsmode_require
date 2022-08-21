@@ -1,4 +1,9 @@
+/*!
+ * Copyright (C) 2022 Akitsugu Komiyama
+ * under the MIT License
+ */
 (function () {
+    var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
     var _outputpane_dllobj = null;
     function _output(msg) {
         if (!_outputpane_dllobj) {
@@ -55,8 +60,14 @@
             else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath + ".js")) {
                 m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath + ".js";
             }
+            else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js")) {
+                m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js";
+            }
             else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath + ".js")) {
                 m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath + ".js";
+            }
+            else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js")) {
+                m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js";
             }
             else if (hidemaruGlobal.existfile(filepath + ".js")) {
                 m_file_path = filepath;
@@ -71,7 +82,8 @@
             }
         }
         var module_code = hidemaru.loadTextFile(m_file_path);
-        var expression = "(function(){ var module = { exports: {} }; var exports = module.exports; " +
+        var module_dir = m_file_path.replace(/[\/\\][^\/\\]+?$/, "");
+        var expression = "(function(){ var module = { filename:m_file_path, directory:module_dir, exports: {} }; var exports = module.exports; " +
             module_code + "; " + "\nreturn module.exports; })()";
         var eval_obj = null;
         try {
@@ -82,5 +94,14 @@
         }
         return eval_obj;
     }
+    if (typeof (require) != 'undefined') {
+        if (require.guid == null) {
+            _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
+        }
+        else if (require.guid != guid) {
+            _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
+        }
+    }
     require = _require;
+    require.guid = guid;
 })();
