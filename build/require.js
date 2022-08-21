@@ -1,4 +1,3 @@
-/// <reference path="../types/hm_jsmode.d.ts" />
 (function () {
     var _outputpane_dllobj = null;
     function _output(msg) {
@@ -81,6 +80,7 @@
         catch (e) {
             throw new Error("in " + m_file_path + "\r\n" + e.message + "\r\n" + e.stack);
         }
+        return eval_obj;
     }
     require = _require;
 })();

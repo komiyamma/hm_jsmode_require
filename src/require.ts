@@ -1,6 +1,4 @@
-/// <reference path="../types/hm_jsmode.d.ts" />
-
-/*
+/*!
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  */
@@ -101,6 +99,7 @@ declare var require: any;
         catch (e) {
             throw new Error("in " + m_file_path + "\r\n" + e.message + "\r\n" + e.stack);
         }
+        return eval_obj;
     }
 
     require = _require;
