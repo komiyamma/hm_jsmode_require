@@ -88,8 +88,8 @@ declare var require: any;
         }
 
         var module_code = hidemaru.loadTextFile(m_file_path);
-
-        var expression = "(function(){ var module = { exports: {} }; var exports = module.exports; " +
+        var module_dir = m_file_path.replace(/[\/\\][^\/\\]+?$/, "");
+        var expression = "(function(){ var module = { filename:m_file_path, directory:module_dir, exports: {} }; var exports = module.exports; " +
             module_code + "; " + "\nreturn module.exports; })()";
 
         var eval_obj = null;
