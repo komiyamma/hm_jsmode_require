@@ -64,18 +64,24 @@ declare var require: any;
 	            m_file_path = filepath;
 	        }
         } else {
-	        if (hidemaruGlobal.existfile(m_currentmacrodirectory + "\\" + filepath + ".js")) {
-	            m_file_path = m_currentmacrodirectory + "\\" + filepath + ".js";
-	        }
-	        else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\"  + filepath + ".js")) {
-	            m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath + ".js";
-	        }
-	        else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\"  + filepath + ".js")) {
-	            m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath + ".js";
-	        }
-	        else if (hidemaruGlobal.existfile(filepath + ".js")) {
-	            m_file_path = filepath;
-	        }
+            if (hidemaruGlobal.existfile(m_currentmacrodirectory + "\\" + filepath + ".js")) {
+                m_file_path = m_currentmacrodirectory + "\\" + filepath + ".js";
+            }
+            else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath + ".js")) {
+                m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath + ".js";
+            }
+            else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js")) {
+                m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js";
+            }
+            else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath + ".js")) {
+                m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath + ".js";
+            }
+            else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js")) {
+                m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js";
+            }
+            else if (hidemaruGlobal.existfile(filepath + ".js")) {
+                m_file_path = filepath;
+            }
         }
 
         if (m_file_path == "") {
