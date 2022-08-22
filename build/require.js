@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  *
