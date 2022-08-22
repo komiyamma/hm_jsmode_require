@@ -2,7 +2,7 @@
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  * 
- * require v1.0.1
+ * require v1.0.2
  */
 
 declare var require: any;
@@ -41,7 +41,7 @@ declare var require: any;
             else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath)) {
                 m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath;
             }
-            else if (hidemaruGlobal.existfile(filepath)) {
+            else if (hidemaruGlobal.existfile(filepath) && filepath.match(/[\/\\]/)) {
                 m_file_path = filepath;
             }
 
