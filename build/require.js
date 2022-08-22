@@ -2,7 +2,7 @@
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  *
- * require v1.0.0
+ * require v1.0.1
  */
 (function () {
     var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
@@ -51,7 +51,7 @@
             else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath)) {
                 m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath;
             }
-            else if (hidemaruGlobal.existfile(filepath)) {
+            else if (hidemaruGlobal.existfile(filepath) && filepath.match(/[\/\\]/)) {
                 m_file_path = filepath;
             }
         }
@@ -71,8 +71,8 @@
             else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js")) {
                 m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js";
             }
-            else if (hidemaruGlobal.existfile(filepath + ".js")) {
-                m_file_path = filepath;
+            else if (hidemaruGlobal.existfile(filepath + ".js") && filepath.match(/[\/\\]/)) {
+                m_file_path = filepath + ".js";
             }
         }
         if (m_file_path == "") {
