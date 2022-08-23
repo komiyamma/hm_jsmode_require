@@ -2,7 +2,7 @@
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  * 
- * require v1.0.2
+ * require v1.0.3
  */
 
 declare var require: any;
@@ -10,110 +10,92 @@ declare var require: any;
 (function () {
     var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
 
-    var _outputpane_dllobj: hidemaru.ILoadDllResult = null;
+    var op_dllobj: hidemaru.ILoadDllResult = null;
 
-    function _output(msg: string): boolean {
+    function output(msg: string): boolean {
 
-        if (!_outputpane_dllobj) {
-            _outputpane_dllobj = hidemaru.loadDll(hidemaruGlobal.hidemarudir() + "\\HmOutputPane.dll");
+        if (!op_dllobj) {
+            op_dllobj = hidemaru.loadDll(hidemaruGlobal.hidemarudir() + "\\HmOutputPane.dll");
         }
 
-        if (_outputpane_dllobj) {
+        if (op_dllobj) {
             var msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
-            return _outputpane_dllobj.dllFunc.Output(hidemaruGlobal.hidemaruhandle(0), msg_replaced);
+            return op_dllobj.dllFunc.Output(hidemaruGlobal.hidemaruhandle(0), msg_replaced);
         }
 
         return false;
     }
 
-    function _require(filepath: string): any {
-        var m_file_path: string = "";
-        var m_currentmacrodirectory: string = hidemaruGlobal.currentmacrodirectory();
-        var m_macrodir: string = hidemaruGlobal.macrodir();
-        var m_hidemardir: string = hidemaruGlobal.hidemarudir();
-        if (filepath.match(/\.json$/i)) {
-            if (hidemaruGlobal.existfile(m_currentmacrodirectory + "\\" + filepath)) {
-                m_file_path = m_currentmacrodirectory + "\\" + filepath;
-            }
-            else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath)) {
-                m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath;
-            }
-            else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath)) {
-                m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath;
-            }
-            else if (hidemaruGlobal.existfile(filepath) && filepath.match(/[\/\\]/)) {
-                m_file_path = filepath;
+    function tryfindpath(try_path: string, condition?: any = true) {
+        if (hidemaruGlobal.existfile(try_path) && condition) {
+            return try_path;
+        }
+        return "";
+    }
+
+    function _require(module_path: string): any {
+        var found_path: string = "";
+        var cmdir: string = hidemaruGlobal.currentmacrodirectory();
+        var mdir: string = hidemaruGlobal.macrodir();
+        var hdir: string = hidemaruGlobal.hidemarudir();
+
+        if (module_path.match(/\.json$/i)) {
+            found_path =
+                tryfindpath(cmdir + "\\" + module_path) ||
+                tryfindpath(mdir + "\\jsmode_modules\\" + module_path) ||
+                tryfindpath(hdir + "\\jsmode_modules\\" + module_path) ||
+                tryfindpath(module_path, module_path.match(/[\/\\]/));
+
+            if (!found_path) {
+                throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + module_path);
             }
 
-            if (m_file_path == "") {
-                throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + filepath);
-            }
-
-            var json_data: string | undefined = hidemaru.loadTextFile(m_file_path);
+            var json_data: string | undefined = hidemaru.loadTextFile(found_path);
             return JSON.parse(json_data);
         }
 
-        if (filepath.match(/\.js$/i)) {
-	        if (hidemaruGlobal.existfile(m_currentmacrodirectory + "\\" + filepath)) {
-	            m_file_path = m_currentmacrodirectory + "\\" + filepath;
-	        }
-	        else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\"  + filepath)) {
-	            m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath;
-	        }
-	        else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\"  + filepath)) {
-	            m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath;
-	        }
-	        else if (hidemaruGlobal.existfile(filepath) && filepath.match(/[\/\\]/)) {
-	            m_file_path = filepath;
-	        }
+        if (module_path.match(/\.js$/i)) {
+            found_path =
+                tryfindpath(cmdir + "\\" + module_path) ||
+                tryfindpath(mdir + "\\jsmode_modules\\" + module_path) ||
+                tryfindpath(hdir + "\\jsmode_modules\\" + module_path) ||
+                tryfindpath(module_path, module_path.match(/[\/\\]/));
+
+            if (!found_path) {
+                throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + module_path);
+            }
         } else {
-            if (hidemaruGlobal.existfile(m_currentmacrodirectory + "\\" + filepath + ".js")) {
-                m_file_path = m_currentmacrodirectory + "\\" + filepath + ".js";
-            }
-            else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath + ".js")) {
-                m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath + ".js";
-            }
-            else if (hidemaruGlobal.existfile(m_macrodir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js")) {
-                m_file_path = m_macrodir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js";
-            }
-            else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath + ".js")) {
-                m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath + ".js";
-            }
-            else if (hidemaruGlobal.existfile(m_hidemardir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js")) {
-                m_file_path = m_hidemardir + "\\jsmode_modules\\" + filepath + "\\" + filepath + ".js";
-            }
-            else if (hidemaruGlobal.existfile(filepath + ".js") && filepath.match(/[\/\\]/)) {
-                m_file_path = filepath + ".js";
+            found_path =
+                tryfindpath(cmdir + "\\" + module_path + ".js") ||
+                tryfindpath(mdir + "\\jsmode_modules\\" + module_path + ".js") ||
+                tryfindpath(mdir + "\\jsmode_modules\\" + module_path + "\\" + module_path + ".js") ||
+                tryfindpath(hdir + "\\jsmode_modules\\" + module_path + ".js") ||
+                tryfindpath(hdir + "\\jsmode_modules\\" + module_path + "\\" + module_path + ".js") ||
+                tryfindpath(module_path + ".js", module_path.match(/[\/\\]/));
+
+            if (!found_path) {
+                throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + module_path + ".js");
             }
         }
 
-        if (m_file_path == "") {
-            if (filepath.match(/\.js$/i)) {
-                throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + filepath);
-            }
-            else {
-                throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + filepath + ".js");
-            }
-        }
-
-        var module_code = hidemaru.loadTextFile(m_file_path);
-        var module_dir = m_file_path.replace(/[\/\\][^\/\\]+?$/, "");
-        var expression = "(function(){ var module = { filename:m_file_path, directory:module_dir, exports: {} }; var exports = module.exports; " +
-            module_code + "; " + "\nreturn module.exports; })()";
+        var module_text = hidemaru.loadTextFile(found_path);
+        var found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
+        var expression = "(function(){ var module = { filename:found_path, directory:found_dir, exports: {} }; var exports = module.exports; " +
+            module_text + "; " + "\nreturn module.exports; })()";
 
         var eval_obj = null;
         try {
             eval_obj = eval(expression);
         }
         catch (e) {
-            throw new Error("in " + m_file_path + "\r\n" + e.message + "\r\n" + e.stack);
+            throw new Error("in " + found_path + "\r\n" + e.message + "\r\n" + e.stack);
         }
         return eval_obj;
     }
 
-    if (typeof(require) != 'undefined') {
+    if (typeof (require) != 'undefined') {
         if (require.guid == null || require.guid != guid) {
-            _output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
+            output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
         }
     }
     require = _require;
