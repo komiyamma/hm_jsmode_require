@@ -2,15 +2,16 @@
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  * 
- * require v1.0.3
+ * require v1.0.4
  */
+/// <reference path="../../hm_jsmode_ts_difinition/types/hm_jsmode_strict.d.ts" />
 
 declare var require: any;
 
 (function () {
-    var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
+    const guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
 
-    var op_dllobj: hidemaru.ILoadDllResult = null;
+    let op_dllobj: hidemaru.ILoadDllResult = null;
 
     function output(msg: string): boolean {
 
@@ -26,7 +27,10 @@ declare var require: any;
         return false;
     }
 
-    function tryfindpath(try_path: string, condition?: any = true) {
+    function tryfindpath(try_path: string, condition?: any): string {
+        if (condition == null) {
+            condition = true;
+        }
         if (hidemaruGlobal.existfile(try_path) && condition) {
             return try_path;
         }
@@ -34,10 +38,10 @@ declare var require: any;
     }
 
     function _require(module_path: string): any {
-        var found_path: string = "";
-        var cmdir: string = hidemaruGlobal.currentmacrodirectory();
-        var mdir: string = hidemaruGlobal.macrodir();
-        var hdir: string = hidemaruGlobal.hidemarudir();
+        let found_path: string = "";
+        const cmdir: string = hidemaruGlobal.currentmacrodirectory();
+        const mdir: string = hidemaruGlobal.macrodir();
+        const hdir: string = hidemaruGlobal.hidemarudir();
 
         if (module_path.match(/\.json$/i)) {
             found_path =
@@ -78,12 +82,12 @@ declare var require: any;
             }
         }
 
-        var module_text = hidemaru.loadTextFile(found_path);
-        var found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
-        var expression = "(function(){ var module = { filename:found_path, directory:found_dir, exports: {} }; var exports = module.exports; " +
+        const module_text = hidemaru.loadTextFile(found_path);
+        const found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
+        const expression = "(function(){ var module = { filename:found_path, directory:found_dir, exports: {} }; var exports = module.exports; " +
             module_text + "; " + "\nreturn module.exports; })()";
 
-        var eval_obj = null;
+        let eval_obj = null;
         try {
             eval_obj = eval(expression);
         }

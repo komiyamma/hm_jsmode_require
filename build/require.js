@@ -2,8 +2,9 @@
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  *
- * require v1.0.3
+ * require v1.0.4
  */
+/// <reference path="../../hm_jsmode_ts_difinition/types/hm_jsmode_strict.d.ts" />
 (function () {
     var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
     var op_dllobj = null;
@@ -18,7 +19,9 @@
         return false;
     }
     function tryfindpath(try_path, condition) {
-        if (condition === void 0) { condition = true; }
+        if (condition == null) {
+            condition = true;
+        }
         if (hidemaruGlobal.existfile(try_path) && condition) {
             return try_path;
         }
