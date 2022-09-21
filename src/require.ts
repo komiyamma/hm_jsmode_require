@@ -20,7 +20,7 @@ declare var require: any;
         }
 
         if (op_dllobj) {
-            var msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            let msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
             return op_dllobj.dllFunc.Output(hidemaruGlobal.hidemaruhandle(0), msg_replaced);
         }
 
@@ -54,7 +54,7 @@ declare var require: any;
                 throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + module_path);
             }
 
-            var json_data: string | undefined = hidemaru.loadTextFile(found_path);
+            let json_data: string | undefined = hidemaru.loadTextFile(found_path);
             return JSON.parse(json_data);
         }
 
