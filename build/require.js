@@ -7,16 +7,10 @@
 /// <reference path="../../hm_jsmode_ts_difinition/types/hm_jsmode_strict.d.ts" />
 (function () {
     var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
-    var op_dllobj = null;
+    var op_dllobj = hidemaru.loadDll("HmOutputPane.dll");
     function output(msg) {
-        if (!op_dllobj) {
-            op_dllobj = hidemaru.loadDll(hidemaruGlobal.hidemarudir() + "\\HmOutputPane.dll");
-        }
-        if (op_dllobj) {
-            var msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
-            return op_dllobj.dllFunc.Output(hidemaruGlobal.hidemaruhandle(0), msg_replaced);
-        }
-        return false;
+        var msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+        return op_dllobj.dllFunc.Output(hidemaruGlobal.hidemaruhandle(0), msg_replaced);
     }
     function tryfindpath(try_path, condition) {
         if (condition == null) {
