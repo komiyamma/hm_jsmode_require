@@ -10,12 +10,11 @@ declare var require: any;
 
 (function () {
     const guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
-
+    let hidemaruhandlezero: number = hidemaru.getCurrentWindowHandle();
     let op_dllobj: hidemaru.ILoadDllResult = hidemaru.loadDll("HmOutputPane.dll");
-
     function output(msg: string): number {
         let msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
-        return op_dllobj.dllFunc.Output(hidemaruGlobal.hidemaruhandle(0), msg_replaced);
+        return op_dllobj.dllFunc.Output(hidemaruhandlezero, msg_replaced);
     }
 
     function tryfindpath(try_path: string, condition?: any): string {
