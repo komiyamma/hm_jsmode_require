@@ -13,18 +13,18 @@
  * @param module_path
  * モジュールのパスを指定します。
  * 
- * - 検索順序
- *   1. currentmacrodirectory/[module_path(.js)]
+ * 検索対象・検索順序    
+ * 1. currentmacrodirectory/[module_path(.js)]
  *     (現在実行しているマクロのディレクトリ)    
- *   2. macrodir/jsmode_modules/[module_path(.js)]
+ * 2. macrodir/jsmode_modules/[module_path(.js)]
  *     (指定のマクロ用フォルダのjsmode_modulesというサブディレクトリ)    
- *   3. macrodir/jsmode_modules/[module_path]/[module_path(.js)]
+ * 3. macrodir/jsmode_modules/[module_path]/[module_path(.js)]
  *     (指定のマクロ用フォルダのjsmode_modulesというサブディレクトリ下の指定の文字列と同じサブディレクトリ)    
- *   4. hidemarudir/jsmode_modules/[module_path(.js)]    
+ * 4. hidemarudir/jsmode_modules/[module_path(.js)]    
  *     (秀丸本体ディレクトリのjsmode_modulesというサブディレクトリ)    
- *   5. hidemarudir/jsmode_modules/[module_path]/[module_path(.js)]    
+ * 5. hidemarudir/jsmode_modules/[module_path]/[module_path(.js)]    
  *     (秀丸本体ディレクトリのjsmode_modulesというサブディレクトリ下の指定の文字列と同じサブディレクトリ)    
- *   6. カレントフォルダ    
+ * 6. カレントフォルダ    
  *
  * の順番にファイルを探します。
  * 
