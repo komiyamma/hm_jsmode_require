@@ -104,7 +104,7 @@ declare var require: any;
         }
         catch (e) {
             let m = e.message.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
-            let s = e.message.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            let s = e.stack.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
             throw new Error("in " + __filename + "\r\n" + m + "\r\n" + s);
         }
         return null;

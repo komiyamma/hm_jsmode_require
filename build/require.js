@@ -89,7 +89,7 @@
         }
         catch (e) {
             var m = e.message.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
-            var s = e.message.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            var s = e.stack.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
             throw new Error("in " + __filename + "\r\n" + m + "\r\n" + s);
         }
         return null;
