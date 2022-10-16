@@ -78,6 +78,10 @@
             if (require.guid == null || require.guid != guid) {
                 output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
             }
+            // 一致していたら上書きはしない
+            if (require.guid == guid) {
+                return;
+            }
         }
         require = _require;
         require.guid = guid;

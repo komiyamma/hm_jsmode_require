@@ -88,15 +88,20 @@ declare var require: any;
             const found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
             return __require(module_text, _require.modules[found_path], found_path, found_dir);
         }
+
         if (typeof (require) != 'undefined') {
             if (require.guid == null || require.guid != guid) {
                 output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
+            }
+            // 一致していたら上書きはしない
+            if (require.guid == guid) {
+                return;
             }
         }
         require = _require;
         require.guid = guid;
     })();
-    
+
     function __require(__module_text: string, module: any, __filename: string, __dirname: string): any {
         try {
             // __module_text や __require を見えなくするために、引数に空宣言する
