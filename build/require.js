@@ -2,7 +2,7 @@
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  *
- * require v1.0.7
+ * require v1.0.8
  */
 /// <reference path="../../hm_jsmode_ts_difinition/types/hm_jsmode_strict.d.ts" />
 (function () {
@@ -15,6 +15,7 @@
                 return;
             }
         }
+        var modules = {};
         function output(msg) {
             var msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
             var op_dllobj = hidemaru.loadDll("HmOutputPane.dll");
@@ -30,9 +31,6 @@
             return "";
         }
         function _require(module_path) {
-            if (_require.modules == null) {
-                _require.modules = {};
-            }
             var found_path = "";
             var cmdir = hidemaruGlobal.currentmacrodirectory();
             var mdir = hidemaruGlobal.macrodir();
@@ -71,14 +69,10 @@
                     throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + module_path + ".js");
                 }
             }
-            // if (_require.modules[found_path]) {
-            //     return _require.modules[found_path];
-            // } else {
-            _require.modules[found_path] = { exports: {} };
-            // }
+            modules[found_path] = { exports: {} };
             var module_text = hidemaru.loadTextFile(found_path);
             var found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
-            return __require(module_text, _require.modules[found_path], found_path, found_dir);
+            return __require(module_text, modules[found_path], found_path, found_dir);
         }
         if (typeof (require) != 'undefined') {
             if (require.guid == null || require.guid != __guid) {
@@ -91,7 +85,7 @@
     function __require(__module_text, module, __filename, __dirname) {
         try {
             // __module_text や __require を見えなくするために、引数に空宣言する
-            return eval("(function(module, exports, __require, __guid, __module_text){ " + __module_text + "; " + "\nreturn module.exports; })(module, module.exports)");
+            return eval("(function(module, exports, __require, __module_text){ " + __module_text + "; " + "\nreturn module.exports; })(module, module.exports)");
         }
         catch (e) {
             var m = e.message.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");

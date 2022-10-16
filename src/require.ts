@@ -2,7 +2,7 @@
  * Copyright (C) 2022 Akitsugu Komiyama
  * under the MIT License
  * 
- * require v1.0.7
+ * require v1.0.8
  */
 /// <reference path="../../hm_jsmode_ts_difinition/types/hm_jsmode_strict.d.ts" />
 
@@ -12,13 +12,13 @@ declare var require: any;
     // requireの読み込み先から見た際に、これらの変数名を隠蔽するため。
     (function () {
         const __guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
-
         if (typeof (require) != 'undefined') {
             // 一致していたら上書きはしない
             if (require.guid && require.guid == __guid) {
                 return;
             }
         }
+        let modules: object = {};
 
         function output(msg: string): number {
             let msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
@@ -37,10 +37,6 @@ declare var require: any;
         }
 
         function _require(module_path: string): any {
-
-            if(_require.modules == null) {
-                _require.modules = {};
-            }
 
             let found_path: string = "";
             const cmdir: string = hidemaruGlobal.currentmacrodirectory();
@@ -86,15 +82,11 @@ declare var require: any;
                 }
             }
 
-            // if (_require.modules[found_path]) {
-            //     return _require.modules[found_path];
-            // } else {
-                _require.modules[found_path] = { exports: {} };
-            // }
+            modules[found_path] = { exports: {} };
 
             const module_text = hidemaru.loadTextFile(found_path);
             const found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
-            return __require(module_text, _require.modules[found_path], found_path, found_dir);
+            return __require(module_text,modules[found_path], found_path, found_dir);
         }
 
         if (typeof (require) != 'undefined') {
@@ -109,7 +101,7 @@ declare var require: any;
     function __require(__module_text: string, module: any, __filename: string, __dirname: string): any {
         try {
             // __module_text や __require を見えなくするために、引数に空宣言する
-            return eval("(function(module, exports, __require, __guid, __module_text){ " + __module_text + "; " + "\nreturn module.exports; })(module, module.exports)");
+            return eval("(function(module, exports, __require, __module_text){ " + __module_text + "; " + "\nreturn module.exports; })(module, module.exports)");
         }
         catch (e) {
             let m = e.message.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
