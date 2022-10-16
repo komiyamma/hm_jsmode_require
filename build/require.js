@@ -8,10 +8,10 @@
 (function () {
     // requireの読み込み先から見た際に、これらの変数名を隠蔽するため。
     (function () {
-        var __guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
+        var guid = "{23CF9A38-A169-48D6-9C70-81951FEA88C8}";
         if (typeof (require) != 'undefined') {
             // 一致していたら上書きはしない
-            if (require.guid && require.guid == __guid) {
+            if (require.guid && require.guid == guid) {
                 return;
             }
         }
@@ -73,12 +73,12 @@
             return __require(module_text, { exports: {} }, found_path, found_dir);
         }
         if (typeof (require) != 'undefined') {
-            if (require.guid == null || require.guid != __guid) {
+            if (require.guid == null || require.guid != guid) {
                 output("本モジュールとは異なるrequireが、すでに定義されています。\r\n上書きします。\r\n");
             }
         }
         require = _require;
-        require.guid = __guid;
+        require.guid = guid;
     })();
     function __require(__module_text, module, __filename, __dirname) {
         try {
