@@ -18,7 +18,6 @@ declare var require: any;
                 return;
             }
         }
-        let modules: object = {};
 
         function output(msg: string): number {
             let msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
@@ -82,11 +81,9 @@ declare var require: any;
                 }
             }
 
-            modules[found_path] = { exports: {} };
-
             const module_text = hidemaru.loadTextFile(found_path);
             const found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
-            return __require(module_text,modules[found_path], found_path, found_dir);
+            return __require(module_text, { exports: {} }, found_path, found_dir);
         }
 
         if (typeof (require) != 'undefined') {

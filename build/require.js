@@ -15,7 +15,6 @@
                 return;
             }
         }
-        var modules = {};
         function output(msg) {
             var msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
             var op_dllobj = hidemaru.loadDll("HmOutputPane.dll");
@@ -69,10 +68,9 @@
                     throw new Error("HidemaruMacroRequireFileNotFoundException: \n" + module_path + ".js");
                 }
             }
-            modules[found_path] = { exports: {} };
             var module_text = hidemaru.loadTextFile(found_path);
             var found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
-            return __require(module_text, modules[found_path], found_path, found_dir);
+            return __require(module_text, { exports: {} }, found_path, found_dir);
         }
         if (typeof (require) != 'undefined') {
             if (require.guid == null || require.guid != __guid) {
