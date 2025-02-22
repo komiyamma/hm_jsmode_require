@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2022 Akitsugu Komiyama
+ * Copyright (C) 2022-2025 Akitsugu Komiyama
  * under the MIT License
  * 
- * require v1.0.8
+ * require v1.0.8.1
  */
-/// <reference path="../../hm_jsmode_ts_difinition/types/hm_jsmode_strict.d.ts" />
+/// <reference path="../../hm_jsmode_ts_definition/types/hm_jsmode_strict.d.ts" />
 
 declare var require: any;
 
@@ -20,7 +20,7 @@ declare var require: any;
         }
 
         function output(msg: string): number {
-            let msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            let msg_replaced = msg?.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
             let op_dllobj = hidemaru.loadDll("HmOutputPane.dll");
             return op_dllobj.dllFunc.Output(hidemaru.getCurrentWindowHandle(), msg_replaced);
         }
@@ -82,7 +82,7 @@ declare var require: any;
             }
 
             const module_text = hidemaru.loadTextFile(found_path);
-            const found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
+            const found_dir = found_path?.replace(/[\/\\][^\/\\]+?$/, "");
             return __require(module_text, { exports: {} }, found_path, found_dir);
         }
 
@@ -101,8 +101,10 @@ declare var require: any;
             return eval("(function(module, exports, __require, __module_text){ " + __module_text + "; " + "\nreturn module.exports; })(module, module.exports)");
         }
         catch (e) {
-            let m = e.message.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
-            let s = e.stack.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            let m = e.message?.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            let s = e.stack?.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            m = m || "";
+            s = s || "";
             throw new Error("in " + __filename + "\r\n" + m + "\r\n" + s);
         }
         return null;

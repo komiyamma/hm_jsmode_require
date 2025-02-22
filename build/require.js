@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2022 Akitsugu Komiyama
+ * Copyright (C) 2022-2025 Akitsugu Komiyama
  * under the MIT License
  *
- * require v1.0.8
+ * require v1.0.8.1
  */
-/// <reference path="../../hm_jsmode_ts_difinition/types/hm_jsmode_strict.d.ts" />
+/// <reference path="../../hm_jsmode_ts_definition/types/hm_jsmode_strict.d.ts" />
 (function () {
     // requireの読み込み先から見た際に、これらの変数名を隠蔽するため。
     (function () {
@@ -16,7 +16,7 @@
             }
         }
         function output(msg) {
-            var msg_replaced = msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            var msg_replaced = msg === null || msg === void 0 ? void 0 : msg.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
             var op_dllobj = hidemaru.loadDll("HmOutputPane.dll");
             return op_dllobj.dllFunc.Output(hidemaru.getCurrentWindowHandle(), msg_replaced);
         }
@@ -69,7 +69,7 @@
                 }
             }
             var module_text = hidemaru.loadTextFile(found_path);
-            var found_dir = found_path.replace(/[\/\\][^\/\\]+?$/, "");
+            var found_dir = found_path === null || found_path === void 0 ? void 0 : found_path.replace(/[\/\\][^\/\\]+?$/, "");
             return __require(module_text, { exports: {} }, found_path, found_dir);
         }
         if (typeof (require) != 'undefined') {
@@ -81,13 +81,16 @@
         require.guid = guid;
     })();
     function __require(__module_text, module, __filename, __dirname) {
+        var _a, _b;
         try {
             // __module_text や __require を見えなくするために、引数に空宣言する
             return eval("(function(module, exports, __require, __module_text){ " + __module_text + "; " + "\nreturn module.exports; })(module, module.exports)");
         }
         catch (e) {
-            var m = e.message.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
-            var s = e.stack.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            var m = (_a = e.message) === null || _a === void 0 ? void 0 : _a.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            var s = (_b = e.stack) === null || _b === void 0 ? void 0 : _b.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+            m = m || "";
+            s = s || "";
             throw new Error("in " + __filename + "\r\n" + m + "\r\n" + s);
         }
         return null;
