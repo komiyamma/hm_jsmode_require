@@ -2,7 +2,7 @@
  * Copyright (C) 2022-2025 Akitsugu Komiyama
  * under the MIT License
  *
- * require v1.0.8.1
+ * require v1.0.9
  */
 /// <reference path="../../hm_jsmode_ts_definition/types/hm_jsmode_strict.d.ts" />
 (function () {
